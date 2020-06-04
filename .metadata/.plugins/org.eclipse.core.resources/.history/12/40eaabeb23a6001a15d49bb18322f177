@@ -1,0 +1,8 @@
+name: WBPlugin
+main: dev.WBPlugin
+version: 1.0
+api-version: 1.14.4
+commands: 
+	test:
+		desription: Test
+		usage: /test

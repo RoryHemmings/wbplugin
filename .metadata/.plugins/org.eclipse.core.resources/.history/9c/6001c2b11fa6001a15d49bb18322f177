@@ -1,0 +1,32 @@
+package dev;
+
+import org.bukkit.Bukkit;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
+
+public class MiniGame {
+	
+	private int numTeams;
+	
+	private Scoreboard board;
+	private Objective obj;
+	private Team[] teams;
+	
+	public MiniGame(int numTeams) {
+		this.numTeams = numTeams;
+		this.teams = new Team[numTeams];
+		
+		setupScoreboard();
+		
+	}
+	
+	private void setupScoreboard() {
+		board = Bukkit.getScoreboardManager().getNewScoreboard();
+		
+		obj = board.registerNewObjective("Currency", "dummy", "Currency");
+		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+	}
+	
+}

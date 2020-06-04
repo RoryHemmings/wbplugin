@@ -1,0 +1,12 @@
+package dev.commands;
+
+import org.bukkit.command.CommandExecutor;
+
+public class TestCommand implements CommandExecutor {
+	
+	@Override
+	public boolean onCommand(CommandSender sneder, Command command, String label, String[] args) {
+		
+	}
+	
+}

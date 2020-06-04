@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;dev.events.ProjectileHit&apos; to &apos;ProjectileListener&apos;&#x0D;&#x0A;- Original project: &apos;wbplugin&apos;&#x0D;&#x0A;- Original element: &apos;dev.events.ProjectileHit&apos;&#x0D;&#x0A;- Renamed element: &apos;dev.events.ProjectileListener&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;ProjectileHit&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;dev.events{ProjectileHit.java[ProjectileHit" matchStrategy="1" name="ProjectileListener" qualified="false" references="true" similarDeclarations="false" stamp="1591246990710" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,23 @@
+package dev;
+
+import org.bukkit.Bukkit;
+import org.bukkit.scoreboard.Scoreboard;
+
+public class MiniGame {
+	
+	private int numTeams;
+	
+	private Scoreboard board;
+	
+	public MiniGame(int numTeams) {
+		this.numTeams = numTeams;
+		
+		this.board = Bukkit.getScoreboardManager().getNewScoreboard();
+		
+	}
+	
+	private void setupScoreboard() {
+		
+	}
+	
+}

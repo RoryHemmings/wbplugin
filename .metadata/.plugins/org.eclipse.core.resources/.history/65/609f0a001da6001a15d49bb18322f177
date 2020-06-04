@@ -1,0 +1,12 @@
+package dev.events;
+
+import org.bukkit.event.Listener;
+
+public class ProjectileHit implements Listener {
+
+	@EventHandler
+	public void onProjectileHit(ProjectileHitEvent e) {
+		
+	}
+	
+}

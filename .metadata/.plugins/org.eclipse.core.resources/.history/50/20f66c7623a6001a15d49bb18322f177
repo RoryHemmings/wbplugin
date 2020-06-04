@@ -1,0 +1,7 @@
+package dev.commands;
+
+import org.bukkit.command.CommandExecutor;
+
+public class TestCommand implements CommandExecutor {
+	
+}

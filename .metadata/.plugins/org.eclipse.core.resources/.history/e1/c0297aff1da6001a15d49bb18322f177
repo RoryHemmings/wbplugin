@@ -1,0 +1,13 @@
+package dev;
+
+public class MiniGame {
+	
+	private int numTeams;
+	
+	public MiniGame(int numTeams) {
+		this.numTeams = numTeams;
+		
+		Team teams[numTeams];
+	}
+	
+}
