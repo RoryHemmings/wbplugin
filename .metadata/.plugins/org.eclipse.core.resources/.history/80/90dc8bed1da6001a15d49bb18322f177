@@ -1,0 +1,11 @@
+package dev;
+
+public class MiniGame {
+	
+	private int numTeams;
+	
+	public MiniGame() {
+		Team[]
+	}
+	
+}
