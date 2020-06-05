@@ -7,9 +7,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.commands.SnowBomb;
 import dev.commands.TestCommand;
-import dev.events.EntityDamageListener;
 import dev.events.ProjectileListener;
 
 public class WBPlugin extends JavaPlugin implements CommandExecutor {
@@ -19,7 +17,7 @@ public class WBPlugin extends JavaPlugin implements CommandExecutor {
 	public void onEnable(){
 		PluginDescriptionFile pdfFile = this.getDescription();
 		Logger logger = getLogger();
-		logger.info(pdfFile.getName() + " Version " + pdfFile.getVersion() + " has Been Enabled");
+		logger.info(pdfFile.getName() + " Version " + pdfFile.getVersion() + " Has Been Enabled");
 		
 		registerCommands();
 		registerEvents();
@@ -27,17 +25,72 @@ public class WBPlugin extends JavaPlugin implements CommandExecutor {
 	public void onDisable(){
 		PluginDescriptionFile pdfFile = this.getDescription();
 		Logger logger = getLogger();
-		logger.info(pdfFile.getName() + " has Been Disabled");
+		logger.info(pdfFile.getName() + " Has Been Disabled");
 	}
 	
 	private void registerCommands() {
 		getCommand("test").setExecutor(new TestCommand(game));
-		getCommand("bomb").setExecutor(new SnowBomb());
 	}
 	
 	private void registerEvents() {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new ProjectileListener(game), this);
-		pm.registerEvents(new EntityDamageListener(), this);
 	}
-}
+}	
+
+//package dev;
+//
+//import java.util.logging.Logger;
+//
+//public class WBPlugin extends JavaPlugin implements CommandExecutor {
+////	public final Logger logger = getLogger();
+////	public static Plugin1 plugin;
+//	
+//	public void onEnable(){
+//		PluginDescriptionFile pdfFile = this.getDescription();
+//		Logger logger = getLogger();
+//		logger.info(pdfFile.getName() + " Version " + pdfFile.getVersion() + " Has Been Enabled");
+//		registerCommands();
+//		registerEvents();
+//		registerConfig();
+//		registerPermissions();
+//	}
+//	public void onDisable(){
+//		PluginDescriptionFile pdfFile = this.getDescription();
+//		Logger logger = getLogger();
+//		logger.info(pdfFile.getName() + " Has Been Disabled");
+//	}
+//	
+//	private void registerCommands(){
+//		getCommand("kool").setExecutor(new koolCommand());
+//		getCommand("notkool").setExecutor(new notKoolCommand());
+//		//getCommand("hub").setExecutor(new hubCommand());
+////		getCommand("skydive").setExecutor(new SkyDiveCommand());
+//		//getCommand("sethub").setExecutor(new TheHubCommand());
+//		getCommand("kit").setExecutor(new KitCommand());
+////		getCommand("blockid").setExecutor(new BlockIdCommand());
+//		//getCommand("staff").setExecutor(new StaffCommand(this));
+//		getCommand("setwarp").setExecutor(new setWarpCommand());
+//		getCommand("warp").setExecutor(new Warp());
+//		getCommand("snowbomb").setExecutor(new SnowBombCommand());
+//		getCommand("savage").setExecutor(new SavageCommand());
+//	}
+//	private void registerEvents(){
+//		PluginManager pm = getServer().getPluginManager();
+//		pm.registerEvents(new BlockBreak(), this);
+//		pm.registerEvents(new PlayerChat(), this);
+//		pm.registerEvents(new PlayerJoin(this), this);
+//		pm.registerEvents(new ProjectileHit(), this);
+//	}
+//	private void registerConfig(){
+//		getConfig().options().copyDefaults(true);
+//		saveConfig();
+//	}
+//	
+//	private void registerPermissions(){
+//		Permission p = new Permission("Plugin1.snowbomb");
+//		PluginManager pm = getServer().getPluginManager();
+//		
+//		pm.addPermission(p);
+//	}
+//}	

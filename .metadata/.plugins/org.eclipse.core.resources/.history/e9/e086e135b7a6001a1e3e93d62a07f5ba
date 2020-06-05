@@ -1,5 +1,0 @@
-import org.bukkit.command.CommandExecutor;
-
-public class SnowBomb implements CommandExecutor {
-
-}
