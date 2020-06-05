@@ -1,9 +1,0 @@
-package dev;
-
-public class MiniGame {
-	
-	public MiniGame() {
-		
-	}
-	
-}
