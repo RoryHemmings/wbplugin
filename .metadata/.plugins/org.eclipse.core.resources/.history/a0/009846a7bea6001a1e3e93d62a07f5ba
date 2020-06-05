@@ -1,0 +1,56 @@
+package dev.events;
+
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
+import org.bukkit.entity.TNTPrimed;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.scoreboard.Team;
+
+import dev.MiniGame;
+import dev.commands.SnowBomb;
+
+public class ProjectileListener implements Listener {
+	
+	private MiniGame game;
+
+	public ProjectileListener(MiniGame game) {
+		this.game = game;
+	}
+	
+	@EventHandler 
+	public void onShotArrow(EntityShootBowEvent e) {
+		if (!(e.getEntity() instanceof Player)) {
+			return;
+		}
+		
+		Player p = (Player) e.getEntity();
+		for (Team t : game.GetTeams()) {
+			if (t.getEntries().contains(p)) {
+				//e.getProjectile().something Set nbt tag with team name or whatever
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onProjectileHit(ProjectileHitEvent e) {
+		if (SnowBomb.enabled() && e.getEntity() instanceof Snowball) {
+			Location loc = e.getEntity().getLocation();
+			e.getEntity().getWorld().playEffect(loc, Effect.SMOKE, 3);
+			e.getEntity().getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1.f, 1.f);
+			TNTPrimed tnt = e.getEntity().getWorld().spawn(e.getEntity().getLocation(), TNTPrimed.class);
+			tnt.setFuseTicks(0);
+		}
+		
+		if (e.getEntity() instanceof Arrow && e.getHitEntity() instanceof Player) {
+			// Check whether arrow came from team based on nbt tags or whatever
+		}
+	}
+	
+}
