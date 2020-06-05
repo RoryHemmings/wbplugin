@@ -1,11 +1,8 @@
 name: WBPlugin
 main: dev.WBPlugin
 version: 1.0
-api-version: 1.14
+api-version: 1.14.4
 commands: 
-  test:
-    description: Test
-    usage: /test
-  bomb:
-    description: enable / disable snow-bombs
-    usage: /bomb <on|off|radius> [radius]
+	test:
+		description: Test
+		usage: /test
