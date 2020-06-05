@@ -1,0 +1,5 @@
+package dev.events;
+
+public class EntityDamageListener implements Listener {
+
+}
