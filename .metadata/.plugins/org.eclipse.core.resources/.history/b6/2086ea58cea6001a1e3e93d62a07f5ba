@@ -1,0 +1,11 @@
+package dev.events;
+
+import org.bukkit.event.Listener;
+
+public class EntityDamageListener implements Listener {
+
+	@EventHandler
+	public void onEntityDamageEvent(EntityDamageEvent e) {
+		
+	}
+}
