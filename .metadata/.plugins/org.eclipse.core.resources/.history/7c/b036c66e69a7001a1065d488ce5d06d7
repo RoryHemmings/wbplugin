@@ -1,0 +1,48 @@
+package dev;
+
+import java.util.logging.Logger;
+
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import dev.commands.SnowBomb;
+import dev.commands.TestCommand;
+import dev.events.EntityDamageListener;
+import dev.events.ProjectileListener;
+
+public class WBPlugin extends JavaPlugin implements CommandExecutor {
+	
+	private MiniGame game;
+	
+	public void onEnable(){
+		PluginDescriptionFile pdfFile = this.getDescription();
+		Logger logger = getLogger();
+		logger.info(pdfFile.getName() + " Version " + pdfFile.getVersion() + " has Been Enabled");
+		
+		ProtectedRegion.load();
+		
+		registerCommands();
+		registerEvents();
+	}
+	public void onDisable(){
+		PluginDescriptionFile pdfFile = this.getDescription();
+		Logger logger = getLogger();
+		logger.info(pdfFile.getName() + " has Been Disabled");
+		
+		ProtectedRegion.saveAll();
+	}
+	
+	private void registerCommands() {
+		getCommand("test").setExecutor(new TestCommand(game));
+		getCommand("bomb").setExecutor(new SnowBomb());
+	}
+	
+	private void registerEvents() {
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(new ProjectileListener(game), this);
+		pm.registerEvents(new EntityDamageListener(), this);
+		pm.registerEvents(new RegionListener(), this);
+	}
+}

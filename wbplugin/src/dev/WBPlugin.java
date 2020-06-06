@@ -7,10 +7,11 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import dev.commands.ProtectedRegionCommand;
 import dev.commands.SnowBomb;
-import dev.commands.TestCommand;
 import dev.events.EntityDamageListener;
 import dev.events.ProjectileListener;
+import dev.events.RegionListener;
 
 public class WBPlugin extends JavaPlugin implements CommandExecutor {
 	
@@ -21,6 +22,8 @@ public class WBPlugin extends JavaPlugin implements CommandExecutor {
 		Logger logger = getLogger();
 		logger.info(pdfFile.getName() + " Version " + pdfFile.getVersion() + " has Been Enabled");
 		
+		ProtectedRegion.load();
+		
 		registerCommands();
 		registerEvents();
 	}
@@ -28,16 +31,19 @@ public class WBPlugin extends JavaPlugin implements CommandExecutor {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		Logger logger = getLogger();
 		logger.info(pdfFile.getName() + " has Been Disabled");
+		
+		ProtectedRegion.save();
 	}
 	
 	private void registerCommands() {
-		getCommand("test").setExecutor(new TestCommand(game));
 		getCommand("bomb").setExecutor(new SnowBomb());
+		getCommand("prgn").setExecutor(new ProtectedRegionCommand());
 	}
 	
 	private void registerEvents() {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new ProjectileListener(game), this);
 		pm.registerEvents(new EntityDamageListener(), this);
+		pm.registerEvents(new RegionListener(), this);
 	}
 }

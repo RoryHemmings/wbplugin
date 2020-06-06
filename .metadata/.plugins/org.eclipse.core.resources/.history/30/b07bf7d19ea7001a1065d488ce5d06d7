@@ -1,0 +1,59 @@
+package dev.events;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+
+public class RegionListener implements Listener {
+	
+	public static Map<Player, Location[]> playerRegions = new HashMap<Player, Location[]>();
+	
+	
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent e) {
+		@SuppressWarnings("deprecation")
+		ItemStack heldItem = e.getPlayer().getItemInHand();
+		Location loc = e.getBlock().getLocation();
+		// add metadata to the stick in the future (and a command to get the stick)
+		if (!e.getPlayer().isOp() || e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+			e.getPlayer()
+		}
+		else if (heldItem != null && heldItem.getType() == Material.STICK) {
+			e.getPlayer().sendMessage(String.format("pos1 (%.2f, %.2f, %.2f)", loc.getX(), loc.getY(), loc.getZ()));
+			
+			if (playerRegions.putIfAbsent(e.getPlayer(), new Location[] {loc, null}) != null) {
+				playerRegions.get(e.getPlayer())[0] = loc;
+			}
+			
+			e.setCancelled(true);
+		}
+	}
+	
+	
+	@EventHandler
+	public void onPlayerUse(PlayerInteractEvent e) {
+		@SuppressWarnings("deprecation")
+		ItemStack heldItem = e.getPlayer().getItemInHand();
+		// add metadata to the stick in the future (and a command to get the stick)
+		if (e.getAction() == Action.RIGHT_CLICK_BLOCK && heldItem != null && heldItem.getType() == Material.STICK) {
+			Location loc = e.getPlayer().getTargetBlock(null, 5).getLocation();
+			e.getPlayer().sendMessage(String.format("pos2 (%.2f, %.2f, %.2f)", loc.getX(), loc.getY(), loc.getZ()));
+			
+			if (playerRegions.putIfAbsent(e.getPlayer(), new Location[] {null, loc}) != null) {
+				playerRegions.get(e.getPlayer())[1] = loc;
+			}
+			
+			e.setCancelled(true);
+		}
+	}
+}

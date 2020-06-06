@@ -6,7 +6,9 @@ import org.bukkit.command.CommandSender;
 public class SnowBomb implements CommandExecutor {
 	
 	private static boolean enabled = false;
-	private static double explosionRadius = 2;
+	private static double radius = 2;
+	private static int power = 1;
+	
 	
 
 	@Override
@@ -24,11 +26,20 @@ public class SnowBomb implements CommandExecutor {
 		else if (args[0].equalsIgnoreCase("radius")) {
 			if (args.length == 1) return false;
 			try {
-				explosionRadius = Double.parseDouble(args[1]);
+				radius = Double.parseDouble(args[1]);
 			} catch (NumberFormatException e) {
 				return false;
 			}
-			sender.sendMessage(String.format("Set strength of explosions to: %.1f", explosionRadius));
+			sender.sendMessage(String.format("Set strength of explosions to: %.1f", radius));
+		}
+		else if (args[0].equalsIgnoreCase("power")) {
+			if (args.length == 1) return false;
+			try {
+				power = Integer.parseInt(args[1]);
+			} catch (NumberFormatException e) {
+				return false;
+			}
+			sender.sendMessage(String.format("Set power of explosions to: %d", power));
 		}
 		else return false;
 		
@@ -40,7 +51,11 @@ public class SnowBomb implements CommandExecutor {
 		return enabled;
 	}
 	
-	public static double getExplosionRadius() {
-		return explosionRadius;
+	public static double getRadius() {
+		return radius;
+	}
+	
+	public static int getPower() {
+		return power;
 	}
 }

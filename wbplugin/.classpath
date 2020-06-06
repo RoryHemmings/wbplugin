@@ -6,6 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Kanan/Desktop/plugin/wbplugin/spigot-1.14.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kanan/Desktop/plugin/wbplugin/patched_1.15.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

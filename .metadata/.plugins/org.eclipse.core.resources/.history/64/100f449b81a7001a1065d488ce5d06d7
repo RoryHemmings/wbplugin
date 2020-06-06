@@ -1,0 +1,102 @@
+package dev.events;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.projectiles.ProjectileSource;
+import org.bukkit.scoreboard.Team;
+
+import dev.MiniGame;
+import dev.ProtectedRegion;
+import dev.commands.SnowBomb;
+
+public class ProjectileListener implements Listener {
+	
+	private MiniGame game;
+
+	public ProjectileListener(MiniGame game) {
+		this.game = game;
+	}
+	
+	@EventHandler 
+	public void onShotArrow(EntityShootBowEvent e) {
+		if (!(e.getEntity() instanceof Player)) {
+			return;
+		}
+		
+		Player p = (Player) e.getEntity();
+		for (Team t : game.GetTeams()) {
+			if (t.getEntries().contains(p)) {
+				//e.getProjectile().something Set nbt tag with team name or whatever
+			}
+		}
+	}
+	
+	private double distance(Location l1, Location l2) {
+		return Math.sqrt(Math.pow(l1.getX() - l2.getX(), 2) + Math.pow(l1.getY() - l2.getY(), 2) + Math.pow(l1.getZ() - l2.getZ(), 2));
+	}
+	
+	@EventHandler
+	public void onProjectileHit(ProjectileHitEvent e) {
+		// Snowball hit
+		if (SnowBomb.isEnabled() && e.getEntity() instanceof Snowball) {
+			// make sure player shot the snowball
+			ProjectileSource shooter = ((Snowball)e.getEntity()).getShooter();
+			if (!(shooter instanceof Player)) return;
+			
+			Location loc = e.getEntity().getLocation();
+			// make an explosion that doesn't break blocks (explosion damage is turned off for players)
+			e.getEntity().getWorld().createExplosion(loc, SnowBomb.getPower(), false, false);
+			// damage nearby players if they didn't throw the snowball
+			for (Entity p : e.getEntity().getNearbyEntities(SnowBomb.getRadius(), SnowBomb.getRadius(), SnowBomb.getRadius())) {
+				if (p != shooter && p instanceof LivingEntity)
+					((LivingEntity)p).damage(SnowBomb.getRadius() - distance(loc, p.getLocation()));
+			}
+			
+			Location block;
+			double dist, strength;
+			Material blockType;
+			// break blocks like an explosion actually happened
+			// doing this because I can control which types of blocks can break
+			for (int x = -(int)SnowBomb.getRadius(); x < (int)SnowBomb.getRadius(); ++x) {
+				for (int y = -(int)SnowBomb.getRadius(); y < (int)SnowBomb.getRadius(); ++y) {
+					inner:
+					for (int z = -(int)SnowBomb.getRadius(); z < (int)SnowBomb.getRadius(); ++z) {
+						block = loc.getBlock().getLocation();
+						block.setX(block.getX() + x);
+						block.setY(block.getY() + x);
+						block.setZ(block.getZ() + x);
+						System.out.println("BLOCK BLOCK");
+						// make sure block isn't in a protected region
+						if (block.getBlock().getType() != Material.AIR) System.out.println(String.format("Testing block at (%f, %f, %f)", block.getX(), block.getY(), block.getZ()));
+						for (ProtectedRegion region : ProtectedRegion.regions) {
+							if (region.contains(block)) continue inner;
+						}
+						dist = distance(loc, block);
+						
+						if (dist <= SnowBomb.getRadius()) strength = 1.f;
+						else strength = 1 / (dist * dist / SnowBomb.getRadius());
+						
+						blockType = block.getBlock().getType();
+						if (Math.random() <= strength && blockType != Material.WATER && blockType != Material.BEDROCK && blockType != Material.COMMAND_BLOCK && blockType != Material.CHAIN_COMMAND_BLOCK && blockType != Material.REPEATING_COMMAND_BLOCK && blockType != Material.BARRIER && blockType != Material.IRON_BLOCK)
+							block.getBlock().setType(Material.AIR);
+					}
+				}
+			}
+		}
+		
+		
+		if (e.getEntity() instanceof Arrow && e.getHitEntity() instanceof Player) {
+			// Check whether arrow came from team based on nbt tags or whatever
+		}
+	}
+	
+}

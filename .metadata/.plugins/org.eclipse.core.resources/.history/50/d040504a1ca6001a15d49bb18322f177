@@ -1,5 +1,0 @@
-package dev.events;
-
-public class ProjectileHit {
-
-}
